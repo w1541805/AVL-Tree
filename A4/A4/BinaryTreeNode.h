@@ -10,28 +10,27 @@ namespace psands_cisp430_a4
 	{
 	private:
 		BinaryTreeNode<T>
-			* _parentNode,
 			*_leftNode,
 			*_rightNode;
 		T * _data;
-		int _height;
+		int _balance;
 	public:
 		BinaryTreeNode();
-		BinaryTreeNode(BinaryTreeNode<T> * parentNode, T * data);
+		BinaryTreeNode(T * data);
 		BinaryTreeNode(const BinaryTreeNode<T> & binaryTreeNode);
 		~BinaryTreeNode();
 
-		BinaryTreeNode<T> * getParentNode() const;
 		BinaryTreeNode<T> * getLeftNode() const;
 		BinaryTreeNode<T> * getRightNode() const;
 		T * getData() const;
-		int getHeight() const;
+		int getBalance() const;
 
 		void setLeftNode(BinaryTreeNode<T> * leftNode);
 		void setLeftNode(T * data);
 		void setRightNode(BinaryTreeNode<T> * rightNode);
 		void setRightNode(T * data);
 		void setData(T * data);
+		void setBalance(int balance);
 	};
 
 	template<class T>
@@ -39,33 +38,20 @@ namespace psands_cisp430_a4
 	{
 		static_assert(std::is_base_of<AbstractDataItem, T>::value, "BinaryTreeNode template T must derive from AbstractDataItem");
 
-		this->_parentNode = nullptr;
 		this->_leftNode = nullptr;
 		this->_rightNode = nullptr;
 		this->_data = nullptr;
-		this->_height = -1; // the empty tree
+		this->_balance = 0;
 	}
 
 	template<class T>
-	inline BinaryTreeNode<T>::BinaryTreeNode(BinaryTreeNode<T> * parentNode, T * data) : BinaryTreeNode<T>()
+	inline BinaryTreeNode<T>::BinaryTreeNode(T * data) : BinaryTreeNode<T>()
 	{
-		this->_parentNode = parentNode;
-		if (nullptr == parentNode)
-		{
-			if (nullptr != data)
-			{
-				this->_height = 0;
-			}
-		}
-		else
-		{
-			this->_height = parentNode->getHeight() + 1;
-		}
 		this->_data = data;
 	}
 
 	template<class T>
-	inline BinaryTreeNode<T>::BinaryTreeNode(const BinaryTreeNode<T>& binaryTreeNode) : BinaryTreeNode<T>(binaryTreeNode->getParentNode(), binaryTreeNode->getData())
+	inline BinaryTreeNode<T>::BinaryTreeNode(const BinaryTreeNode<T>& binaryTreeNode) : BinaryTreeNode<T>(binaryTreeNode->getData())
 	{
 		this->_leftNode = binaryTreeNode->getLeftNode();
 		this->_rightNode = binaryTreeNode->getRightNode();
@@ -75,12 +61,6 @@ namespace psands_cisp430_a4
 	inline BinaryTreeNode<T>::~BinaryTreeNode()
 	{
 		delete this->_data;
-	}
-
-	template<class T>
-	inline BinaryTreeNode<T>* BinaryTreeNode<T>::getParentNode() const
-	{
-		return this->_parentNode;
 	}
 
 	template<class T>
@@ -102,9 +82,9 @@ namespace psands_cisp430_a4
 	}
 
 	template<class T>
-	inline int BinaryTreeNode<T>::getHeight() const
+	inline int BinaryTreeNode<T>::getBalance() const
 	{
-		return this->_height;
+		return this->_balance;
 	}
 
 	template<class T>
@@ -116,7 +96,7 @@ namespace psands_cisp430_a4
 	template<class T>
 	inline void BinaryTreeNode<T>::setLeftNode(T * data)
 	{
-		BinaryTreeNode<T> * newLeftNode = new BinaryTreeNode<T>(this, data);
+		BinaryTreeNode<T> * newLeftNode = new BinaryTreeNode<T>(data);
 		this->setLeftNode(newLeftNode);
 	}
 
@@ -129,7 +109,7 @@ namespace psands_cisp430_a4
 	template<class T>
 	inline void BinaryTreeNode<T>::setRightNode(T * data)
 	{
-		BinaryTreeNode<T> * newRightNode = new BinaryTreeNode<T>(this, data);
+		BinaryTreeNode<T> * newRightNode = new BinaryTreeNode<T>(data);
 		this->setRightNode(newRightNode);
 	}
 
@@ -137,6 +117,12 @@ namespace psands_cisp430_a4
 	inline void BinaryTreeNode<T>::setData(T * data)
 	{
 		this->_data->copyData(data);
+	}
+
+	template<class T>
+	inline void BinaryTreeNode<T>::setBalance(int balance)
+	{
+		this->_balance = balance;
 	}
 
 }
