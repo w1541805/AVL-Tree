@@ -1,4 +1,5 @@
 ﻿#include "stdafx.h"
+#include "../A4/BinarySearchTree.h"
 #include "../A4/BinaryTreeNode.h"
 
 using namespace System;
@@ -87,6 +88,40 @@ namespace BinaryTreeNodeTests
 			Assert::AreEqual(4, root->getLeftNode()->getData());
 			Console::WriteLine("Assert root->getRightNode()->getData() is 6");
 			Assert::AreEqual(6, root->getRightNode()->getData());
+		}
+
+		[TestMethod]
+		void BinarySearchTree_InterfaceMethods_SingleNode()
+		{
+			Console::WriteLine("Dynamically create BinarySearchTree<int, BinaryTreeNode>");
+			BinarySearchTree<int, BinaryTreeNode> * tree = new BinarySearchTree<int, BinaryTreeNode>();
+
+			Console::WriteLine("Assert tree is not null");
+			Assert::IsTrue(nullptr != tree);
+
+			Console::WriteLine("Assert result of tree->get(5) is false");
+			bool getResult = tree->get(5);
+			Assert::IsFalse(getResult);
+
+			Console::WriteLine("Assert result of tree->remove(5) is false");
+			bool removeResult = tree->remove(5);
+			Assert::IsFalse(removeResult);
+
+			Console::WriteLine("Assert result of tree->insert(5) is true");
+			bool insertResult = tree->insert(5);
+			Assert::IsTrue(insertResult);
+
+			Console::WriteLine("Assert result of tree->insert(5) is false");
+			insertResult = tree->insert(5);
+			Assert::IsFalse(insertResult);
+
+			Console::WriteLine("Assert result of tree->get(5) is true");
+			getResult = tree->get(5);
+			Assert::IsTrue(getResult);
+
+			Console::WriteLine("Assert result of tree->remove(5) is true");
+			removeResult = tree->remove(5);
+			Assert::IsTrue(removeResult);
 		}
 	};
 }

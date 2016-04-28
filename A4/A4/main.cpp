@@ -1,35 +1,23 @@
-#include "AbstractBinarySearchTree.h"
+#include "BinarySearchTree.h"
 #include "BinaryTreeNode.h"
-
-#include "AvlBinaryTree.h"
-#include "BinaryTreeNode.h"
-#include "IntegerDataItem.h"
 
 using namespace psands_cisp430_a4;
 
 int main(void)
 {
-	//BinaryTreeNode<IntegerDataItem> * root = new BinaryTreeNode<IntegerDataItem>(new IntegerDataItem(10));
-	//root->setLeftNode(new IntegerDataItem(5));
-	//root->getLeftNode()->setData(new IntegerDataItem(4));
+	BinarySearchTree<int, BinaryTreeNode> * tree = new BinarySearchTree<int, BinaryTreeNode>();
+	tree->insert(10);
+	tree->insert(5);
+	tree->insert(3);
+	tree->insert(7);
+	tree->insert(8);
+	tree->insert(9);
+	tree->insert(15);
+	tree->insert(14);
+	tree->insert(12);
+	tree->insert(11);
 
-	//AvlBinaryTree<IntegerDataItem> * tree = new AvlBinaryTree<IntegerDataItem>();
-
-	//tree->insert(new IntegerDataItem(10));
-	//tree->insert(new IntegerDataItem(5));
-	//tree->insert(new IntegerDataItem(4));
-	//tree->insert(new IntegerDataItem(6));
-	//tree->insert(new IntegerDataItem(7));
-	//tree->insert(new IntegerDataItem(15));
-	//tree->insert(new IntegerDataItem(14));
-	//tree->insert(new IntegerDataItem(16));
-
-	//bool exists = tree->search(new IntegerDataItem(4));
-	//exists = tree->search(new IntegerDataItem(3));
-
-	AbstractBinarySearchTree<IntegerDataItem *, BinaryTreeNode<IntegerDataItem *>> * tree = new AbstractBinarySearchTree<IntegerDataItem *, BinaryTreeNode<IntegerDataItem *>>();
-	tree->insert(new IntegerDataItem(10));
-	tree->insert(new IntegerDataItem(5));
+	tree->get(10);
 
 	return 0;
 }
