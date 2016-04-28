@@ -117,6 +117,7 @@
   <ItemGroup>
     <ClInclude Include="AbstractDataItem.h" />
     <ClInclude Include="AvlBinaryTree.h" />
+    <ClInclude Include="AvlBinaryTreeNode.h" />
     <ClInclude Include="BinaryTreeNode.h" />
     <ClInclude Include="IntegerDataItem.h" />
   </ItemGroup>
