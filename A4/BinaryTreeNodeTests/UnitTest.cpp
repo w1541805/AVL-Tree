@@ -59,7 +59,7 @@ namespace BinaryTreeNodeTests
 		void BinaryTreeNode_Construction()
 		{
 			Console::WriteLine("Dynamically create new BinaryTreeNode with initial value of 5.");
-			BinaryTreeNode<int> * node = new BinaryTreeNode<int>(5);
+			BinaryTreeNode<int> * node = new BinaryTreeNode<int>(5, nullptr);
 			Console::WriteLine("Assert 5 is equal to node->getData()");
 			Assert::AreEqual(5, node->getData());
 			Console::WriteLine("Assert node->getLeftNode() is null");
@@ -72,9 +72,9 @@ namespace BinaryTreeNodeTests
 		void BinaryTreeNode_Mutators()
 		{
 			Console::WriteLine("Dynamically create three BinaryTreeNodes: root:=5, left:=4, right:=6");
-			BinaryTreeNode<int> * root = new BinaryTreeNode<int>(5);
-			BinaryTreeNode<int> * left = new BinaryTreeNode<int>(4);
-			BinaryTreeNode<int> * right = new BinaryTreeNode<int>(6);
+			BinaryTreeNode<int> * root = new BinaryTreeNode<int>(5, nullptr);
+			BinaryTreeNode<int> * left = new BinaryTreeNode<int>(4, nullptr);
+			BinaryTreeNode<int> * right = new BinaryTreeNode<int>(6, nullptr);
 			Assert::IsTrue(nullptr != root && nullptr != left && nullptr != right);
 			Console::WriteLine("root->setLeftNode(left)");
 			root->setLeftNode(left);

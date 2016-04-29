@@ -6,6 +6,7 @@ using namespace psands_cisp430_a4;
 int main(void)
 {
 	BinarySearchTree<int, BinaryTreeNode> * tree = new BinarySearchTree<int, BinaryTreeNode>();
+
 	tree->insert(10);
 	tree->insert(5);
 	tree->insert(3);
@@ -17,7 +18,7 @@ int main(void)
 	tree->insert(12);
 	tree->insert(11);
 
-	tree->get(10);
+	tree->remove(14);
 
 	return 0;
 }

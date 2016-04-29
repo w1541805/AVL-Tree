@@ -14,7 +14,7 @@ namespace psands_cisp430_a4
 		TNode<TData> * _rootNode;
 		bool _isFull, _wasInsertDuplicate;
 
-		TNode<TData> * recursiveInsert(TData data, TNode<TData> * current);
+		TNode<TData> * recursiveInsert(TData data, TNode<TData> * current, TNode<TData> * parentOfCurrent);
 		TNode<TData> * recursiveRemove(TData data, TNode<TData> * current);
 		TNode<TData> * recursiveGet(TData data, TNode<TData> * current);
 
@@ -27,11 +27,11 @@ namespace psands_cisp430_a4
 		bool get(TData data);
 	};
 	template<typename TData, template<typename> class TNode>
-	inline TNode<TData> * BinarySearchTree<TData, TNode>::recursiveInsert(TData data, TNode<TData> * current)
+	inline TNode<TData> * BinarySearchTree<TData, TNode>::recursiveInsert(TData data, TNode<TData> * current, TNode<TData> * parentOfCurrent)
 	{
 		if (nullptr == current)
 		{
-			TNode<TData> * newNode = new(std::nothrow) TNode<TData>(data);
+			TNode<TData> * newNode = new(std::nothrow) TNode<TData>(data, parentOfCurrent);
 			
 			if (nullptr == newNode)
 			{
@@ -51,12 +51,12 @@ namespace psands_cisp430_a4
 
 		if (data < current->getData())
 		{
-			newNode = this->recursiveInsert(data, current->getLeftNode());
+			newNode = this->recursiveInsert(data, current->getLeftNode(), current);
 			current->setLeftNode(newNode);
 		}
 		else
 		{
-			newNode = this->recursiveInsert(data, current->getRightNode());
+			newNode = this->recursiveInsert(data, current->getRightNode(), current);
 			current->setRightNode(newNode);
 		}
 		return current;
@@ -66,17 +66,34 @@ namespace psands_cisp430_a4
 	{
 		if (nullptr == current->getLeftNode() && nullptr == current->getRightNode())
 		{
+			if (nullptr != current->getParentNode())
+			{
+				if (data == current->getParentNode()->getLeftNode()->getData())
+				{
+					current->getParentNode()->setLeftNode(nullptr);
+				}
+				else
+				{
+					current->getParentNode()->setRightNode(nullptr);
+				}
+			}
+			else
+			{
+				this->_rootNode = nullptr;
+			}
+
 			delete current;
+			return nullptr;
 		}
-		if (nullptr != current->getLeftNode() && nullptr == current->getRightNode())
+		else if (nullptr != current->getLeftNode() && nullptr == current->getRightNode())
 		{
-			TData<TNode> * immPred = this->getImmediatePredecessor(current);
+			TNode<TData> * immPred = this->getImmediatePredecessor(current);
 			current->setData(immPred->getData());
 			this->recursiveRemove(immPred->getData(), immPred);
 		}
 		else
 		{
-			TData<TNode> * immSucc = this->getImmediateSuccessor(current);
+			TNode<TData> * immSucc = this->getImmediateSuccessor(current);
 			current->setData(immSucc->getData());
 			this->recursiveRemove(immSucc->getData(), immSucc);
 		}
@@ -133,7 +150,7 @@ namespace psands_cisp430_a4
 			return false;
 		}
 
-		this->_rootNode = this->recursiveInsert(data, this->_rootNode);
+		this->_rootNode = this->recursiveInsert(data, this->_rootNode, nullptr);
 
 		if (true == this->_wasInsertDuplicate)
 		{
@@ -153,6 +170,8 @@ namespace psands_cisp430_a4
 		}
 
 		this->recursiveRemove(data, nodeToRemove);
+
+		return true;
 	}
 	template<typename TData, template<typename> class TNode>
 	inline bool BinarySearchTree<TData, TNode>::get(TData data)

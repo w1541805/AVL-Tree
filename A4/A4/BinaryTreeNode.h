@@ -7,14 +7,16 @@ namespace psands_cisp430_a4
 	class BinaryTreeNode
 	{
 	private:
+		BinaryTreeNode<T> * _parentNode;
 		BinaryTreeNode<T> * _leftNode;
 		BinaryTreeNode<T> * _rightNode;
 		T _data;
 
 	public:
 		BinaryTreeNode();
-		BinaryTreeNode(T data);
+		BinaryTreeNode(T data, BinaryTreeNode<T> * parentNode);
 
+		BinaryTreeNode<T> * getParentNode() const;
 		BinaryTreeNode<T> * getLeftNode() const;
 		BinaryTreeNode<T> * getRightNode() const;
 		T getData() const;
@@ -32,9 +34,15 @@ namespace psands_cisp430_a4
 		this->setRightNode(nullptr);
 	}
 	template<class T>
-	inline BinaryTreeNode<T>::BinaryTreeNode(T data) : BinaryTreeNode()
+	inline BinaryTreeNode<T>::BinaryTreeNode(T data, BinaryTreeNode<T>* parentNode) : BinaryTreeNode()
 	{
 		this->setData(data);
+		this->_parentNode = parentNode;
+	}
+	template<class T>
+	inline BinaryTreeNode<T>* BinaryTreeNode<T>::getParentNode() const
+	{
+		return this->_parentNode;
 	}
 	template<class T>
 	inline BinaryTreeNode<T>* BinaryTreeNode<T>::getLeftNode() const
