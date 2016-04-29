@@ -11,10 +11,7 @@ using namespace psands_cisp430_a4;
 
 namespace BinaryTreeNodeTests
 {
-	void sum(int n)
-	{
-		Console::Write(n + " ");
-	}
+	void iterateBuildString(int n);
 
 	[TestClass]
 	public ref class UnitTest
@@ -22,9 +19,7 @@ namespace BinaryTreeNodeTests
 	private:
 		TestContext^ testContextInstance;
 
-		int iteratorSum = 0;
-
-	public: 
+	public:
 		/// <summary>
 		///Gets or sets the test context which provides
 		///information about and functionality for the current test run.
@@ -66,7 +61,7 @@ namespace BinaryTreeNodeTests
 		[TestMethod]
 		void BinaryTreeNode_Construction()
 		{
-			Console::WriteLine("Dynamically create new BinaryTreeNode with initial value of 5.");
+			Console::WriteLine("Dynamically creating new BinaryTreeNode with initial value of 5.");
 			BinaryTreeNode<int> * node = new BinaryTreeNode<int>(5, nullptr);
 			Console::WriteLine("Assert 5 is equal to node->getData()");
 			Assert::AreEqual(5, node->getData());
@@ -79,7 +74,7 @@ namespace BinaryTreeNodeTests
 		[TestMethod]
 		void BinaryTreeNode_Mutators()
 		{
-			Console::WriteLine("Dynamically create three BinaryTreeNodes: root:=5, left:=4, right:=6");
+			Console::WriteLine("Dynamically creating three BinaryTreeNodes: root:=5, left:=4, right:=6");
 			BinaryTreeNode<int> * root = new BinaryTreeNode<int>(5, nullptr);
 			BinaryTreeNode<int> * left = new BinaryTreeNode<int>(4, nullptr);
 			BinaryTreeNode<int> * right = new BinaryTreeNode<int>(6, nullptr);
@@ -101,7 +96,7 @@ namespace BinaryTreeNodeTests
 		[TestMethod]
 		void BinarySearchTree_InterfaceMethods_SingleNode()
 		{
-			Console::WriteLine("Dynamically create BinarySearchTree<int, BinaryTreeNode>");
+			Console::WriteLine("Dynamically creating BinarySearchTree<int, BinaryTreeNode>");
 			BinarySearchTree<int, BinaryTreeNode> * tree = new BinarySearchTree<int, BinaryTreeNode>();
 
 			Console::WriteLine("Assert tree is not null");
@@ -132,10 +127,12 @@ namespace BinaryTreeNodeTests
 			Assert::IsTrue(removeResult);
 		}
 
+		static System::String^ iterateString;
+
 		[TestMethod]
-		void BinaryTreeIterator_InorderIteration()
+		void BinaryTreeIterator_Iteration()
 		{
-			Console::WriteLine("Dynamically create BinarySearchTree<int, BinaryTreeNode>");
+			Console::WriteLine("Dynamically creating BinarySearchTree<int, BinaryTreeNode>");
 			BinarySearchTree<int, BinaryTreeNode> * tree = new BinarySearchTree<int, BinaryTreeNode>();
 
 			Console::WriteLine("Inserting... 4,2,1,3,6,5,7");
@@ -143,20 +140,40 @@ namespace BinaryTreeNodeTests
 			tree->insert(6); tree->insert(5); tree->insert(7);
 
 			BinaryTreeIterator<int> itr = tree->getIterator();
-			itr.iterate(sum, LNR, FORWARD);
 
-			Console::WriteLine("");
-			itr.iterate(sum, LNR, BACKWARD);
+			itr.iterate(iterateBuildString, LNR, FORWARD);
+			Console::WriteLine("Assert LNR FORWARD iteration result is: 1 2 3 4 5 6 7");
+			Assert::AreEqual("1 2 3 4 5 6 7 ", UnitTest::iterateString);
 
-			Console::WriteLine("");
-			itr.iterate(sum, NLR, FORWARD);
-			Console::WriteLine("");
-			itr.iterate(sum, NLR, BACKWARD);
+			UnitTest::iterateString = String::Empty;
+			itr.iterate(iterateBuildString, LNR, BACKWARD);
+			Console::WriteLine("Assert LNR BACKWARD iteration result is: 7 6 5 4 3 2 1");
+			Assert::AreEqual("7 6 5 4 3 2 1 ", UnitTest::iterateString);
 
-			Console::WriteLine("");
-			itr.iterate(sum, LRN, FORWARD);
-			Console::WriteLine("");
-			itr.iterate(sum, LRN, BACKWARD);
+			UnitTest::iterateString = String::Empty;
+			itr.iterate(iterateBuildString, NLR, FORWARD);
+			Console::WriteLine("Assert NLR FORWARD iteration result is: 4 2 1 3 6 5 7");
+			Assert::AreEqual("4 2 1 3 6 5 7 ", UnitTest::iterateString);
+
+			UnitTest::iterateString = String::Empty;
+			itr.iterate(iterateBuildString, NLR, BACKWARD);
+			Console::WriteLine("Assert NLR BACKWARD iteration result is: 4 6 7 5 2 3 1");
+			Assert::AreEqual("4 6 7 5 2 3 1 ", UnitTest::iterateString);
+
+			UnitTest::iterateString = String::Empty;
+			itr.iterate(iterateBuildString, LRN, FORWARD);
+			Console::WriteLine("Assert LRN FORWARD iteration result is: 1 3 2 5 7 6 4");
+			Assert::AreEqual("1 3 2 5 7 6 4 ", UnitTest::iterateString);
+
+			UnitTest::iterateString = String::Empty;
+			itr.iterate(iterateBuildString, LRN, BACKWARD);
+			Console::WriteLine("Assert LRN BACKWARD iteration result is: 7 5 6 3 1 2 4");
+			Assert::AreEqual("7 5 6 3 1 2 4 ", UnitTest::iterateString);
 		}
 	};
+
+	void iterateBuildString(int n)
+	{
+		UnitTest::iterateString += n + " ";
+	}
 }
