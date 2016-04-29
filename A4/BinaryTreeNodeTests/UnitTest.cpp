@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "../A4/BinarySearchTree.h"
 #include "../A4/BinaryTreeNode.h"
+#include "../A4/BinaryTreeIterator.h"
 
 using namespace System;
 using namespace System::Text;
@@ -10,11 +11,18 @@ using namespace psands_cisp430_a4;
 
 namespace BinaryTreeNodeTests
 {
+	void sum(int n)
+	{
+		Console::Write(n + " ");
+	}
+
 	[TestClass]
 	public ref class UnitTest
 	{
 	private:
 		TestContext^ testContextInstance;
+
+		int iteratorSum = 0;
 
 	public: 
 		/// <summary>
@@ -122,6 +130,33 @@ namespace BinaryTreeNodeTests
 			Console::WriteLine("Assert result of tree->remove(5) is true");
 			removeResult = tree->remove(5);
 			Assert::IsTrue(removeResult);
+		}
+
+		[TestMethod]
+		void BinaryTreeIterator_InorderIteration()
+		{
+			Console::WriteLine("Dynamically create BinarySearchTree<int, BinaryTreeNode>");
+			BinarySearchTree<int, BinaryTreeNode> * tree = new BinarySearchTree<int, BinaryTreeNode>();
+
+			Console::WriteLine("Inserting... 4,2,1,3,6,5,7");
+			tree->insert(4); tree->insert(2); tree->insert(1); tree->insert(3);
+			tree->insert(6); tree->insert(5); tree->insert(7);
+
+			BinaryTreeIterator<int> itr = tree->getIterator();
+			itr.iterate(sum, LNR, FORWARD);
+
+			Console::WriteLine("");
+			itr.iterate(sum, LNR, BACKWARD);
+
+			Console::WriteLine("");
+			itr.iterate(sum, NLR, FORWARD);
+			Console::WriteLine("");
+			itr.iterate(sum, NLR, BACKWARD);
+
+			Console::WriteLine("");
+			itr.iterate(sum, LRN, FORWARD);
+			Console::WriteLine("");
+			itr.iterate(sum, LRN, BACKWARD);
 		}
 	};
 }

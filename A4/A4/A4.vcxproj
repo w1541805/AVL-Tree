@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinarySearchTree.h" />
+    <ClInclude Include="BinaryTreeIterator.h" />
     <ClInclude Include="BinaryTreeNode.h" />
   </ItemGroup>
   <ItemGroup>

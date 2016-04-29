@@ -2,6 +2,7 @@
 #define PSANDS_CISP430_BINARYSEARCHTREE_H
 
 #include <new>
+#include "BinaryTreeIterator.h"
 
 namespace psands_cisp430_a4
 {
@@ -25,6 +26,7 @@ namespace psands_cisp430_a4
 		bool insert(TData data);
 		bool remove(TData data);
 		bool get(TData data);
+		BinaryTreeIterator<TData> getIterator();
 	};
 	template<typename TData, template<typename> class TNode>
 	inline TNode<TData> * BinarySearchTree<TData, TNode>::recursiveInsert(TData data, TNode<TData> * current, TNode<TData> * parentOfCurrent)
@@ -178,6 +180,11 @@ namespace psands_cisp430_a4
 	{
 		TNode<TData> * searchResultNode = this->recursiveGet(data, this->_rootNode);
 		return nullptr != searchResultNode;
+	}
+	template<typename TData, template<typename> class TNode>
+	inline BinaryTreeIterator<TData> BinarySearchTree<TData, TNode>::getIterator()
+	{
+		return BinaryTreeIterator<TData>(this->_rootNode);
 	}
 }
 
