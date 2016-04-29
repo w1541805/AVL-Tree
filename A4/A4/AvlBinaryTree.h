@@ -19,6 +19,7 @@ namespace psands_cisp430_a4
 
 	protected:
 		AvlBinaryTreeNode<T> * recursiveInsert(T data, AvlBinaryTreeNode<T> * current, AvlBinaryTreeNode<T> * parentOfCurrent) override;
+		AvlBinaryTreeNode<T> * recursiveRemove(T data, AvlBinaryTreeNode<T> * current) override;
 	public:
 	};
 	template<class T>
@@ -75,6 +76,11 @@ namespace psands_cisp430_a4
 	template<class T>
 	inline AvlBinaryTreeNode<T>* AvlBinaryTree<T>::balance(AvlBinaryTreeNode<T>* node)
 	{
+		if (nullptr == node)
+		{
+			return node;
+		}
+
 		this->adjustHeight(node);
 		if (node->getBalance() == 2)
 		{
@@ -99,6 +105,12 @@ namespace psands_cisp430_a4
 	{
 		AvlBinaryTreeNode<T> * insertResultNode = BinarySearchTree::recursiveInsert(data, current, parentOfCurrent);
 		return this->balance(insertResultNode);
+	}
+	template<class T>
+	inline AvlBinaryTreeNode<T>* AvlBinaryTree<T>::recursiveRemove(T data, AvlBinaryTreeNode<T>* current)
+	{
+		AvlBinaryTreeNode<T> * removeResultNode = BinarySearchTree::recursiveRemove(data, current);
+		return this->balance(removeResultNode);
 	}
 }
 
