@@ -21,6 +21,7 @@ namespace psands_cisp430_a4
 		BinaryTreeNode<T> * getRightNode() const;
 		T getData() const;
 
+		void setParentNode(BinaryTreeNode<T> * newParentNode);
 		void setLeftNode(BinaryTreeNode<T> * newLeftNode);
 		void setLeftNode(T data);
 		void setRightNode(BinaryTreeNode<T> * newRightNode);
@@ -58,6 +59,11 @@ namespace psands_cisp430_a4
 	inline T BinaryTreeNode<T>::getData() const
 	{
 		return this->_data;
+	}
+	template<class T>
+	inline void BinaryTreeNode<T>::setParentNode(BinaryTreeNode<T>* newParentNode)
+	{
+		this->_parentNode = newParentNode;
 	}
 	template<class T>
 	inline void BinaryTreeNode<T>::setLeftNode(BinaryTreeNode<T>* newLeftNode)

@@ -175,12 +175,16 @@ namespace BinaryTreeNodeTests
 		[TestMethod]
 		void AvlBinaryTreeNode_ConstructionAndMutators()
 		{
-			Console::WriteLine("Dynamically creating three AvlBinaryTreeNodes: root:=4, left:=1, right:=5");
-			AvlBinaryTreeNode<int> * root = new AvlBinaryTreeNode<int>(4, nullptr, 3);
-			AvlBinaryTreeNode<int> * left = new AvlBinaryTreeNode<int>(1, root, 2);
-			AvlBinaryTreeNode<int> * right = new AvlBinaryTreeNode<int>(5, root, 0);
+			Console::WriteLine("Dynamically creating five AvlBinaryTreeNodes: root:=4, left:=3, leftx2:=2, leftx3:=1, right:=5");
+			AvlBinaryTreeNode<int> * root = new AvlBinaryTreeNode<int>(4, nullptr);
+			AvlBinaryTreeNode<int> * left = new AvlBinaryTreeNode<int>(3, root);
+			AvlBinaryTreeNode<int> * leftx2 = new AvlBinaryTreeNode<int>(2, left);
+			AvlBinaryTreeNode<int> * leftx3 = new AvlBinaryTreeNode<int>(1, leftx2);
+			AvlBinaryTreeNode<int> * right = new AvlBinaryTreeNode<int>(5, root);
 			root->setLeftNode(left);
 			root->setRightNode(right);
+			left->setLeftNode(leftx2);
+			leftx2->setLeftNode(leftx3);
 
 			Console::WriteLine("Assert 4 is equal to root->getData()");
 			Assert::AreEqual(4, root->getData());
@@ -189,12 +193,14 @@ namespace BinaryTreeNodeTests
 			Console::WriteLine("Assert root->getRightNode() is not null");
 			Assert::IsTrue(nullptr != root->getRightNode());
 
-			Console::WriteLine("Assert 1 is equal to left->getData()");
-			Assert::AreEqual(1, left->getData());
+			Console::WriteLine("Assert 3 is equal to left->getData()");
+			Assert::AreEqual(3, left->getData());
 			Console::WriteLine("Assert left->getParentNode() is equal to root");
 			Assert::IsTrue(root == left->getParentNode());
-			Console::WriteLine("Assert left->getLeftNode() is null");
-			Assert::IsTrue(nullptr == left->getLeftNode());
+			Console::WriteLine("Assert left->getLeftNode() is not null");
+			Assert::IsTrue(nullptr != left->getLeftNode());
+			Console::WriteLine("Assert right->getLeftNode() is null");
+			Assert::IsTrue(nullptr == right->getLeftNode());
 
 			Console::WriteLine("Assert 3 is equal to root->getHeight()");
 			Assert::AreEqual(3, root->getHeight());

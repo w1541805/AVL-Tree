@@ -13,14 +13,19 @@ namespace psands_cisp430_a4
 	{
 	private:
 		TNode<TData> * _rootNode;
-		bool _isFull, _wasInsertDuplicate;
 
-		TNode<TData> * recursiveInsert(TData data, TNode<TData> * current, TNode<TData> * parentOfCurrent);
 		TNode<TData> * recursiveRemove(TData data, TNode<TData> * current);
 		TNode<TData> * recursiveGet(TData data, TNode<TData> * current);
 
 		TNode<TData> * getImmediatePredecessor(TNode<TData> * current, DIRECTION direction = LEFT);
 		TNode<TData> * getImmediateSuccessor(TNode<TData> * current, DIRECTION direction = RIGHT);
+
+	protected:
+		bool _isFull, _wasInsertDuplicate;
+
+		virtual TNode<TData> * getNewNode(TData data, TNode<TData> * parentOfCurrent);
+
+		virtual TNode<TData> * recursiveInsert(TData data, TNode<TData> * current, TNode<TData> * parentOfCurrent);
 
 	public:
 		bool insert(TData data);
@@ -29,48 +34,14 @@ namespace psands_cisp430_a4
 		BinaryTreeIterator<TData> getIterator();
 	};
 	template<typename TData, template<typename> class TNode>
-	inline TNode<TData> * BinarySearchTree<TData, TNode>::recursiveInsert(TData data, TNode<TData> * current, TNode<TData> * parentOfCurrent)
-	{
-		if (nullptr == current)
-		{
-			TNode<TData> * newNode = new(std::nothrow) TNode<TData>(data, parentOfCurrent);
-			
-			if (nullptr == newNode)
-			{
-				this->_isFull = true;
-			}
-
-			return newNode;
-		}
-
-		if (data == current->getData())
-		{
-			this->_wasInsertDuplicate = true;
-			return current; // cannot insert duplicate entries into binary search tree
-		}
-
-		TNode<TData> * newNode;
-
-		if (data < current->getData())
-		{
-			newNode = this->recursiveInsert(data, current->getLeftNode(), current);
-			current->setLeftNode(newNode);
-		}
-		else
-		{
-			newNode = this->recursiveInsert(data, current->getRightNode(), current);
-			current->setRightNode(newNode);
-		}
-		return current;
-	}
-	template<typename TData, template<typename> class TNode>
 	inline TNode<TData> * BinarySearchTree<TData, TNode>::recursiveRemove(TData data, TNode<TData> * current)
 	{
 		if (nullptr == current->getLeftNode() && nullptr == current->getRightNode())
 		{
 			if (nullptr != current->getParentNode())
 			{
-				if (data == current->getParentNode()->getLeftNode()->getData())
+				if (nullptr != current->getParentNode()->getLeftNode() &&
+					data == current->getParentNode()->getLeftNode()->getData())
 				{
 					current->getParentNode()->setLeftNode(nullptr);
 				}
@@ -114,35 +85,77 @@ namespace psands_cisp430_a4
 		}
 		else if (data < current->getData())
 		{
-			return this->recursiveGet(data, current->getLeftNode());
+			return this->recursiveGet(data, ((TNode<TData> *)current->getLeftNode()));
 		}
-		return this->recursiveGet(data, current->getRightNode());
+		return this->recursiveGet(data, ((TNode<TData> *)current->getRightNode()));
 	}
 	template<typename TData, template<typename> class TNode>
 	inline TNode<TData> * BinarySearchTree<TData, TNode>::getImmediatePredecessor(TNode<TData> * current, DIRECTION direction = LEFT)
 	{
 		if (LEFT == direction)
 		{
-			return this->getImmediatePredecessor(current->getLeftNode(), RIGHT);
+			return this->getImmediatePredecessor(((TNode<TData> *)current->getLeftNode()), RIGHT);
 		}
 		if (nullptr == current->getRightNode())
 		{
 			return current;
 		}
-		return this->getImmediatePredecessor(current->getRightNode(), RIGHT);
+		return this->getImmediatePredecessor(((TNode<TData> *)current->getRightNode()), RIGHT);
 	}
 	template<typename TData, template<typename> class TNode>
 	inline TNode<TData> * BinarySearchTree<TData, TNode>::getImmediateSuccessor(TNode<TData> * current, DIRECTION direction = RIGHT)
 	{
 		if (RIGHT == direction)
 		{
-			return this->getImmediateSuccessor(current->getRightNode(), LEFT);
+			return this->getImmediateSuccessor(((TNode<TData> *)current->getRightNode()), LEFT);
 		}
 		if (nullptr == current->getLeftNode())
 		{
 			return current;
 		}
-		return this->getImmediateSuccessor(current->getLeftNode(), LEFT);
+		return this->getImmediateSuccessor(((TNode<TData> *)current->getLeftNode()), LEFT);
+	}
+	template<typename TData, template<typename> class TNode>
+	inline TNode<TData> * BinarySearchTree<TData, TNode>::getNewNode(TData data, TNode<TData> * parentOfCurrent)
+	{
+		TNode<TData> * newNode = new(std::nothrow) TNode<TData>(data, parentOfCurrent);
+
+		if (nullptr == newNode)
+		{
+			this->_isFull = true;
+		}
+
+		return newNode;
+	}
+	template<typename TData, template<typename> class TNode>
+	inline TNode<TData> * BinarySearchTree<TData, TNode>::recursiveInsert(TData data, TNode<TData> * current, TNode<TData> * parentOfCurrent)
+	{
+		if (nullptr == current)
+		{
+			TNode<TData> * newNode = this->getNewNode(data, parentOfCurrent);
+			return newNode;
+		}
+
+		if (data == current->getData())
+		{
+			this->_wasInsertDuplicate = true;
+			return current; // cannot insert duplicate entries into binary search tree
+		}
+
+		TNode<TData> * newNode;
+
+		if (data < current->getData())
+		{
+			newNode = this->recursiveInsert(data, ((TNode<TData> *)current->getLeftNode()), ((TNode<TData> *)current));
+			((TNode<TData> *)current)->setLeftNode(newNode);
+		}
+		else
+		{
+			newNode = this->recursiveInsert(data, ((TNode<TData> *)current->getRightNode()), ((TNode<TData> *)current));
+			((TNode<TData> *)current)->setRightNode(newNode);
+		}
+
+		return current;
 	}
 	template<typename TData, template<typename> class TNode>
 	inline bool BinarySearchTree<TData, TNode>::insert(TData data)

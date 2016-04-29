@@ -12,7 +12,7 @@ namespace psands_cisp430_a4
 		int _height;
 	public:
 		AvlBinaryTreeNode();
-		AvlBinaryTreeNode(T data, BinaryTreeNode<T> * parentNode, int height);
+		AvlBinaryTreeNode(T data, BinaryTreeNode<T> * parentNode);
 
 		int getHeight() const;
 		int getBalance() const;
@@ -24,9 +24,9 @@ namespace psands_cisp430_a4
 	{
 	}
 	template<class T>
-	inline AvlBinaryTreeNode<T>::AvlBinaryTreeNode(T data, BinaryTreeNode<T>* parentNode, int height) : BinaryTreeNode(data, parentNode)
+	inline AvlBinaryTreeNode<T>::AvlBinaryTreeNode(T data, BinaryTreeNode<T>* parentNode) : BinaryTreeNode(data, parentNode)
 	{
-		this->setHeight(height);
+		this->setHeight(0);
 	}
 	template<class T>
 	inline int AvlBinaryTreeNode<T>::getHeight() const
