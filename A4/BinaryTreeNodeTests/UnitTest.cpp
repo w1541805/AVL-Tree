@@ -2,6 +2,7 @@
 #include "../A4/BinarySearchTree.h"
 #include "../A4/BinaryTreeNode.h"
 #include "../A4/BinaryTreeIterator.h"
+#include "../A4/AvlBinaryTreeNode.h"
 
 using namespace System;
 using namespace System::Text;
@@ -169,6 +170,43 @@ namespace BinaryTreeNodeTests
 			itr.iterate(iterateBuildString, LRN, BACKWARD);
 			Console::WriteLine("Assert LRN BACKWARD iteration result is: 7 5 6 3 1 2 4");
 			Assert::AreEqual("7 5 6 3 1 2 4 ", UnitTest::iterateString);
+		}
+
+		[TestMethod]
+		void AvlBinaryTreeNode_ConstructionAndMutators()
+		{
+			Console::WriteLine("Dynamically creating three AvlBinaryTreeNodes: root:=4, left:=1, right:=5");
+			AvlBinaryTreeNode<int> * root = new AvlBinaryTreeNode<int>(4, nullptr, 3);
+			AvlBinaryTreeNode<int> * left = new AvlBinaryTreeNode<int>(1, root, 2);
+			AvlBinaryTreeNode<int> * right = new AvlBinaryTreeNode<int>(5, root, 0);
+			root->setLeftNode(left);
+			root->setRightNode(right);
+
+			Console::WriteLine("Assert 4 is equal to root->getData()");
+			Assert::AreEqual(4, root->getData());
+			Console::WriteLine("Assert root->getLeftNode() is not null");
+			Assert::IsTrue(nullptr != root->getLeftNode());
+			Console::WriteLine("Assert root->getRightNode() is not null");
+			Assert::IsTrue(nullptr != root->getRightNode());
+
+			Console::WriteLine("Assert 1 is equal to left->getData()");
+			Assert::AreEqual(1, left->getData());
+			Console::WriteLine("Assert left->getParentNode() is equal to root");
+			Assert::IsTrue(root == left->getParentNode());
+			Console::WriteLine("Assert left->getLeftNode() is null");
+			Assert::IsTrue(nullptr == left->getLeftNode());
+
+			Console::WriteLine("Assert 3 is equal to root->getHeight()");
+			Assert::AreEqual(3, root->getHeight());
+			Console::WriteLine("Assert 2 is equal to left->getHeight()");
+			Assert::AreEqual(2, left->getHeight());
+			Console::WriteLine("Assert 0 is equal to right->getHeight()");
+			Assert::AreEqual(0, right->getHeight());
+
+			Console::WriteLine("Assert -2 is equal to root->getBalance()");
+			Assert::AreEqual(-2, root->getBalance());
+			Console::WriteLine("Assert 0 is equal to right->getBalance()");
+			Assert::AreEqual(0, right->getBalance());
 		}
 	};
 
