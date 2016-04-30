@@ -22,6 +22,7 @@ namespace psands_cisp430_a4
 	template<class T>
 	inline AvlBinaryTreeNode<T>::AvlBinaryTreeNode() : BinaryTreeNode()
 	{
+		this->setHeight(0);
 	}
 	template<class T>
 	inline AvlBinaryTreeNode<T>::AvlBinaryTreeNode(T data, BinaryTreeNode<T>* parentNode) : BinaryTreeNode(data, parentNode)

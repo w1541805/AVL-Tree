@@ -4,6 +4,8 @@
 #include "../A4/BinaryTreeIterator.h"
 #include "../A4/AvlBinaryTreeNode.h"
 
+#include <memory>
+
 using namespace System;
 using namespace System::Text;
 using namespace System::Collections::Generic;
@@ -37,7 +39,7 @@ namespace BinaryTreeNodeTests
 			}
 		};
 
-		#pragma region Additional test attributes
+#pragma region Additional test attributes
 		//
 		//You can use the following additional attributes as you write your tests:
 		//
@@ -57,7 +59,7 @@ namespace BinaryTreeNodeTests
 		//[TestCleanup()]
 		//void MyTestCleanup() {};
 		//
-		#pragma endregion 
+#pragma endregion 
 
 		[TestMethod]
 		void BinaryTreeNode_Construction()
@@ -95,10 +97,10 @@ namespace BinaryTreeNodeTests
 		}
 
 		[TestMethod]
-		void BinarySearchTree_InterfaceMethods_SingleNode()
+		void A4BinarySearchTree_InterfaceMethods_SingleNode()
 		{
 			Console::WriteLine("Dynamically creating BinarySearchTree<int, BinaryTreeNode>");
-			BinarySearchTree<int, BinaryTreeNode> * tree = new BinarySearchTree<int, BinaryTreeNode>();
+			std::unique_ptr<BinarySearchTree<int, BinaryTreeNode>> tree(new BinarySearchTree<int, BinaryTreeNode>);
 
 			Console::WriteLine("Assert tree is not null");
 			Assert::IsTrue(nullptr != tree);

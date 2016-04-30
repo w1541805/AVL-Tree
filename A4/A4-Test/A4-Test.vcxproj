@@ -14,9 +14,9 @@
     <TargetName>DefaultTest</TargetName>
     <ProjectTypes>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}</ProjectTypes>
     <CLRSupport>true</CLRSupport>
-    <ProjectGuid>{1E8B57DB-BC44-4A98-AEF6-5E384C4A2CA1}</ProjectGuid>
+    <ProjectGuid>{8D8DEE14-04AC-43F2-B1E3-78A87B4EC76B}</ProjectGuid>
     <Keyword>ManagedCProj</Keyword>
-    <RootNamespace>BinaryTreeNodeTests</RootNamespace>
+    <RootNamespace>A4Test</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -71,7 +71,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
+      <HintPath>D:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="System" />

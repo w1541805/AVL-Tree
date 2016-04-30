@@ -20,7 +20,7 @@ namespace psands_cisp430_a4
 		TNode<TData> * getImmediateSuccessor(TNode<TData> * current, DIRECTION direction = RIGHT);
 
 	protected:
-		bool _isFull, _wasInsertDuplicate;
+		bool _isFull, _wasInsertDuplicate, _wasRemoveSuccessful;
 
 		virtual TNode<TData> * getNewNode(TData data, TNode<TData> * parentOfCurrent);
 
@@ -28,6 +28,8 @@ namespace psands_cisp430_a4
 		virtual TNode<TData> * recursiveRemove(TData data, TNode<TData> * current);
 
 	public:
+		BinarySearchTree<TData, TNode>();
+
 		bool insert(TData data);
 		bool remove(TData data);
 		bool get(TData data);
@@ -121,41 +123,72 @@ namespace psands_cisp430_a4
 	template<typename TData, template<typename> class TNode>
 	inline TNode<TData> * BinarySearchTree<TData, TNode>::recursiveRemove(TData data, TNode<TData> * current)
 	{
-		if (nullptr == current->getLeftNode() && nullptr == current->getRightNode())
+		if (nullptr == current)
 		{
-			if (nullptr != current->getParentNode())
+			return nullptr;
+		}
+
+		if (data == current->getData())
+		{
+			if (false == this->_wasRemoveSuccessful)
 			{
-				if (nullptr != current->getParentNode()->getLeftNode() &&
-					data == current->getParentNode()->getLeftNode()->getData())
+				this->_wasRemoveSuccessful = true;
+			}
+
+			if (nullptr == current->getLeftNode() && nullptr == current->getRightNode())
+			{
+				if (nullptr != current->getParentNode())
 				{
-					current->getParentNode()->setLeftNode(nullptr);
+					if (nullptr != current->getParentNode()->getLeftNode() &&
+						data == current->getParentNode()->getLeftNode()->getData())
+					{
+						current->getParentNode()->setLeftNode(nullptr);
+					}
+					else
+					{
+						current->getParentNode()->setRightNode(nullptr);
+					}
 				}
 				else
 				{
-					current->getParentNode()->setRightNode(nullptr);
+					this->_rootNode = nullptr;
 				}
+
+				delete current;
+				current = nullptr;
+			}
+			else if (nullptr != current->getLeftNode() && nullptr == current->getRightNode())
+			{
+				TNode<TData> * immPred = this->getImmediatePredecessor(current);
+				current->setData(immPred->getData());
+				this->recursiveRemove(immPred->getData(), immPred);
 			}
 			else
 			{
-				this->_rootNode = nullptr;
+				TNode<TData> * immSucc = this->getImmediateSuccessor(current);
+				current->setData(immSucc->getData());
+				this->recursiveRemove(immSucc->getData(), immSucc);
 			}
 
-			delete current;
-			current = nullptr;
 		}
-		else if (nullptr != current->getLeftNode() && nullptr == current->getRightNode())
+		else if (data < current->getData())
 		{
-			TNode<TData> * immPred = this->getImmediatePredecessor(current);
-			current->setData(immPred->getData());
-			this->recursiveRemove(immPred->getData(), immPred);
+			this->recursiveRemove(data, ((TNode<TData> *)current->getLeftNode()));
 		}
 		else
 		{
-			TNode<TData> * immSucc = this->getImmediateSuccessor(current);
-			current->setData(immSucc->getData());
-			this->recursiveRemove(immSucc->getData(), immSucc);
+			this->recursiveRemove(data, ((TNode<TData> *)current->getRightNode()));
 		}
+
 		return current;
+	}
+	template<typename TData, template<typename> class TNode>
+	inline BinarySearchTree<TData, TNode>::BinarySearchTree()
+	{
+		this->_rootNode = nullptr;
+		this->_wasInsertDuplicate = false;
+		this->_wasRemoveSuccessful = false;
+		this->_isFull = false;
 	}
 	template<typename TData, template<typename> class TNode>
 	inline bool BinarySearchTree<TData, TNode>::insert(TData data)
@@ -178,15 +211,15 @@ namespace psands_cisp430_a4
 	template<typename TData, template<typename> class TNode>
 	inline bool BinarySearchTree<TData, TNode>::remove(TData data)
 	{
-		TNode<TData> * nodeToRemove = this->recursiveGet(data, this->_rootNode);
-		if (nullptr == nodeToRemove)
+		this->_rootNode = this->recursiveRemove(data, this->_rootNode);
+
+		if (true == this->_wasRemoveSuccessful)
 		{
-			return false;
+			this->_wasRemoveSuccessful = false;
+			return true;
 		}
 
-		this->recursiveRemove(data, nodeToRemove);
-
-		return true;
+		return false;
 	}
 	template<typename TData, template<typename> class TNode>
 	inline bool BinarySearchTree<TData, TNode>::get(TData data)

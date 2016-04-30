@@ -1,5 +1,5 @@
 // stdafx.cpp : source file that includes just the standard includes
-// BinaryTreeTests.pch will be the pre-compiled header
+// A4-Test-Native.pch will be the pre-compiled header
 // stdafx.obj will contain the pre-compiled type information
 
 #include "stdafx.h"

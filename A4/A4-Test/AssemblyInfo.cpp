@@ -9,11 +9,11 @@ using namespace System::Runtime::InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly:AssemblyTitleAttribute("BinaryTreeNodeTests")];
+[assembly:AssemblyTitleAttribute("A4Test")];
 [assembly:AssemblyDescriptionAttribute("")];
 [assembly:AssemblyConfigurationAttribute("")];
 [assembly:AssemblyCompanyAttribute("")];
-[assembly:AssemblyProductAttribute("BinaryTreeNodeTests")];
+[assembly:AssemblyProductAttribute("A4Test")];
 [assembly:AssemblyCopyrightAttribute("Copyright (c)  2016")];
 [assembly:AssemblyTrademarkAttribute("")];
 [assembly:AssemblyCultureAttribute("")];
