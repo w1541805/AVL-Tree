@@ -8,7 +8,7 @@ namespace psands_cisp430_a4
 	enum ITERATETYPE { LNR, NLR, LRN };
 	enum ITERATEDIRECTION { FORWARD, BACKWARD };
 
-	template<typename TData, template <typename> typename TNode>
+	template<typename TData, template <typename> class TNode>
 	class BinaryTreeIterator
 	{
 	private:
@@ -28,7 +28,7 @@ namespace psands_cisp430_a4
 
 		void iterate(void(*userDefinedProcess)(TData), ITERATETYPE iterateType, ITERATEDIRECTION iterateDirection);
 	};
-	template<typename TData, template <typename> typename TNode>
+	template<typename TData, template <typename> class TNode>
 	inline void BinaryTreeIterator<TData, TNode>::recursiveGetNextPreorder(TNode<TData>* current, ITERATEDIRECTION iterateDirection)
 	{
 		if (nullptr == current)
@@ -50,7 +50,7 @@ namespace psands_cisp430_a4
 		}
 
 	}
-	template<typename TData, template <typename> typename TNode>
+	template<typename TData, template <typename> class TNode>
 	inline void BinaryTreeIterator<TData, TNode>::recursiveGetNextInorder(TNode<TData>* current, ITERATEDIRECTION iterateDirection)
 	{
 		if (nullptr == current)
@@ -71,7 +71,7 @@ namespace psands_cisp430_a4
 			this->recursiveGetNextInorder(((TNode<TData> *)current->getLeftNode()), iterateDirection);
 		}
 	}
-	template<typename TData, template <typename> typename TNode>
+	template<typename TData, template <typename> class TNode>
 	inline void BinaryTreeIterator<TData, TNode>::recursiveGetNextPostorder(TNode<TData>* current, ITERATEDIRECTION iterateDirection)
 	{
 		if (nullptr == current)
@@ -92,22 +92,22 @@ namespace psands_cisp430_a4
 			this->process(current);
 		}
 	}
-	template<typename TData, template <typename> typename TNode>
+	template<typename TData, template <typename> class TNode>
 	inline void BinaryTreeIterator<TData, TNode>::process(TNode<TData>* node)
 	{
 		this->_process(node->getData());
 	}
-	template<typename TData, template <typename> typename TNode>
+	template<typename TData, template <typename> class TNode>
 	inline BinaryTreeIterator<TData, TNode>::BinaryTreeIterator()
 	{
 		this->_rootNode = nullptr;
 	}
-	template<typename TData, template <typename> typename TNode>
+	template<typename TData, template <typename> class TNode>
 	inline BinaryTreeIterator<TData, TNode>::BinaryTreeIterator(TNode<TData>* rootNode) : BinaryTreeIterator()
 	{
 		this->_rootNode = rootNode;
 	}
-	template<typename TData, template <typename> typename TNode>
+	template<typename TData, template <typename> class TNode>
 	inline void BinaryTreeIterator<TData, TNode>::iterate(void(*userDefinedProcess)(TData), ITERATETYPE iterateType, ITERATEDIRECTION iterateDirection)
 	{
 		this->_process = userDefinedProcess;

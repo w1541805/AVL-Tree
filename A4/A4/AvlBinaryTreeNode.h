@@ -20,12 +20,12 @@ namespace psands_cisp430_a4
 		void setHeight(int height);
 	};
 	template<class T>
-	inline AvlBinaryTreeNode<T>::AvlBinaryTreeNode() : BinaryTreeNode()
+	inline AvlBinaryTreeNode<T>::AvlBinaryTreeNode() : BinaryTreeNode<T>::BinaryTreeNode()
 	{
 		this->setHeight(0);
 	}
 	template<class T>
-	inline AvlBinaryTreeNode<T>::AvlBinaryTreeNode(T data, BinaryTreeNode<T>* parentNode) : BinaryTreeNode(data, parentNode)
+	inline AvlBinaryTreeNode<T>::AvlBinaryTreeNode(T data, BinaryTreeNode<T>* parentNode) : BinaryTreeNode<T>::BinaryTreeNode(data, parentNode)
 	{
 		this->setHeight(0);
 	}

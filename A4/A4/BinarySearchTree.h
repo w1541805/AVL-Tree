@@ -52,7 +52,7 @@ namespace psands_cisp430_a4
 		return this->recursiveGet(data, ((TNode<TData> *)current->getRightNode()));
 	}
 	template<typename TData, template<typename> class TNode>
-	inline TNode<TData> * BinarySearchTree<TData, TNode>::getImmediatePredecessor(TNode<TData> * current, DIRECTION direction = LEFT)
+	inline TNode<TData> * BinarySearchTree<TData, TNode>::getImmediatePredecessor(TNode<TData> * current, DIRECTION direction)
 	{
 		if (LEFT == direction)
 		{
@@ -65,7 +65,7 @@ namespace psands_cisp430_a4
 		return this->getImmediatePredecessor(((TNode<TData> *)current->getRightNode()), RIGHT);
 	}
 	template<typename TData, template<typename> class TNode>
-	inline TNode<TData> * BinarySearchTree<TData, TNode>::getImmediateSuccessor(TNode<TData> * current, DIRECTION direction = RIGHT)
+	inline TNode<TData> * BinarySearchTree<TData, TNode>::getImmediateSuccessor(TNode<TData> * current, DIRECTION direction)
 	{
 		if (RIGHT == direction)
 		{

@@ -5,7 +5,6 @@
 #include "BinaryTreeIterator.h"
 
 #include <iostream>
-#include <iomanip>
 
 namespace psands_cisp430_a4
 {
@@ -33,7 +32,7 @@ namespace psands_cisp430_a4
 	inline void A4BinaryTreeIterator<T>::process(AvlBinaryTreeNode<T>* node)
 	{
 		int displayDepth = 4 * getSpacesFromRoot(node, 0);
-		string spaces = "";
+		std::string spaces = "";
 		for (int i = 0; i < displayDepth; i++)
 		{
 			spaces += " ";
@@ -41,7 +40,7 @@ namespace psands_cisp430_a4
 		std::cout << spaces << node->getData() << " " << "[h: " << node->getHeight() << " b: " << node->getBalance() << "]\n";
 	}
 	template<typename T>
-	inline A4BinaryTreeIterator<T>::A4BinaryTreeIterator(AvlBinaryTreeNode<T>* rootNode) : BinaryTreeIterator(rootNode)
+	inline A4BinaryTreeIterator<T>::A4BinaryTreeIterator(AvlBinaryTreeNode<T>* rootNode) : BinaryTreeIterator<T, AvlBinaryTreeNode>::BinaryTreeIterator(rootNode)
 	{
 		this->_rootHeight = rootNode->getHeight();
 	}

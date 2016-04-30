@@ -102,13 +102,13 @@ namespace psands_cisp430_a4
 	template<class T>
 	inline AvlBinaryTreeNode<T>* AvlBinaryTree<T>::recursiveInsert(T data, AvlBinaryTreeNode<T>* current, AvlBinaryTreeNode<T>* parentOfCurrent)
 	{
-		AvlBinaryTreeNode<T> * insertResultNode = BinarySearchTree::recursiveInsert(data, current, parentOfCurrent);
+		AvlBinaryTreeNode<T> * insertResultNode = BinarySearchTree<T, AvlBinaryTreeNode>::recursiveInsert(data, current, parentOfCurrent);
 		return this->balance(insertResultNode);
 	}
 	template<class T>
 	inline AvlBinaryTreeNode<T>* AvlBinaryTree<T>::recursiveRemove(T data, AvlBinaryTreeNode<T>* current)
 	{
-		AvlBinaryTreeNode<T> * removeResultNode = BinarySearchTree::recursiveRemove(data, current);
+		AvlBinaryTreeNode<T> * removeResultNode = BinarySearchTree<T, AvlBinaryTreeNode>::recursiveRemove(data, current);
 		return this->balance(removeResultNode);
 	}
 }
