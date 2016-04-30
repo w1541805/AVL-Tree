@@ -20,7 +20,6 @@ namespace psands_cisp430_a4
 	protected:
 		AvlBinaryTreeNode<T> * recursiveInsert(T data, AvlBinaryTreeNode<T> * current, AvlBinaryTreeNode<T> * parentOfCurrent) override;
 		AvlBinaryTreeNode<T> * recursiveRemove(T data, AvlBinaryTreeNode<T> * current) override;
-	public:
 	};
 	template<class T>
 	inline int AvlBinaryTree<T>::getHeight(AvlBinaryTreeNode<T>* node)
