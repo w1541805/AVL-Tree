@@ -12,14 +12,13 @@ namespace psands_cisp430_a4
 	class BinarySearchTree
 	{
 	private:
-		TNode<TData> * _rootNode;
-
 		TNode<TData> * recursiveGet(TData data, TNode<TData> * current);
 
 		TNode<TData> * getImmediatePredecessor(TNode<TData> * current, DIRECTION direction = LEFT);
 		TNode<TData> * getImmediateSuccessor(TNode<TData> * current, DIRECTION direction = RIGHT);
 
 	protected:
+		TNode<TData> * _rootNode;
 		bool _isFull, _wasInsertDuplicate, _wasRemoveSuccessful;
 
 		virtual TNode<TData> * getNewNode(TData data, TNode<TData> * parentOfCurrent);
@@ -33,7 +32,7 @@ namespace psands_cisp430_a4
 		bool insert(TData data);
 		bool remove(TData data);
 		bool get(TData data);
-		BinaryTreeIterator<TData> getIterator();
+		BinaryTreeIterator<TData, TNode> getIterator();
 	};
 	template<typename TData, template<typename> class TNode>
 	inline TNode<TData> * BinarySearchTree<TData, TNode>::recursiveGet(TData data, TNode<TData> * current)
@@ -228,9 +227,9 @@ namespace psands_cisp430_a4
 		return nullptr != searchResultNode;
 	}
 	template<typename TData, template<typename> class TNode>
-	inline BinaryTreeIterator<TData> BinarySearchTree<TData, TNode>::getIterator()
+	inline BinaryTreeIterator<TData, TNode> BinarySearchTree<TData, TNode>::getIterator()
 	{
-		return BinaryTreeIterator<TData>(this->_rootNode);
+		return BinaryTreeIterator<TData, TNode>(this->_rootNode);
 	}
 }
 

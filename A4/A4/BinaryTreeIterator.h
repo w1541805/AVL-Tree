@@ -8,24 +8,28 @@ namespace psands_cisp430_a4
 	enum ITERATETYPE { LNR, NLR, LRN };
 	enum ITERATEDIRECTION { FORWARD, BACKWARD };
 
-	template<typename T>
+	template<typename TData, template <typename> typename TNode>
 	class BinaryTreeIterator
 	{
 	private:
-		BinaryTreeNode<T> * _rootNode;
+		void(*_process)(TData);
 
-		void recursiveGetNextPreorder(BinaryTreeNode<T> * current, void(*process)(T), ITERATEDIRECTION iterateDirection);
-		void recursiveGetNextInorder(BinaryTreeNode<T> * current, void(*process)(T), ITERATEDIRECTION iterateDirection);
-		void recursiveGetNextPostorder(BinaryTreeNode<T> * current, void(*process)(T), ITERATEDIRECTION iterateDirection);
+	protected:
+		TNode<TData> * _rootNode;
+		virtual void process(TNode<TData> * node);
+
+		void recursiveGetNextPreorder(TNode<TData> * current, ITERATEDIRECTION iterateDirection);
+		void recursiveGetNextInorder(TNode<TData> * current, ITERATEDIRECTION iterateDirection);
+		void recursiveGetNextPostorder(TNode<TData> * current, ITERATEDIRECTION iterateDirection);
 
 	public:
 		BinaryTreeIterator();
-		BinaryTreeIterator(BinaryTreeNode<T> * rootNode);
+		BinaryTreeIterator(TNode<TData> * rootNode);
 
-		void iterate(void(*process)(T), ITERATETYPE iterateType, ITERATEDIRECTION iterateDirection);
+		void iterate(void(*userDefinedProcess)(TData), ITERATETYPE iterateType, ITERATEDIRECTION iterateDirection);
 	};
-	template<typename T>
-	inline void BinaryTreeIterator<T>::recursiveGetNextPreorder(BinaryTreeNode<T>* current, void(*process)(T), ITERATEDIRECTION iterateDirection)
+	template<typename TData, template <typename> typename TNode>
+	inline void BinaryTreeIterator<TData, TNode>::recursiveGetNextPreorder(TNode<TData>* current, ITERATEDIRECTION iterateDirection)
 	{
 		if (nullptr == current)
 		{
@@ -34,20 +38,20 @@ namespace psands_cisp430_a4
 
 		if (FORWARD == iterateDirection)
 		{
-			process(current->getData());
-			this->recursiveGetNextPreorder(current->getLeftNode(), process, iterateDirection);
-			this->recursiveGetNextPreorder(current->getRightNode(), process, iterateDirection);
+			this->process(current);
+			this->recursiveGetNextPreorder(((TNode<TData> *)current->getLeftNode()), iterateDirection);
+			this->recursiveGetNextPreorder(((TNode<TData> *)current->getRightNode()), iterateDirection);
 		}
 		else if (BACKWARD == iterateDirection)
 		{
-			process(current->getData());
-			this->recursiveGetNextPreorder(current->getRightNode(), process, iterateDirection);
-			this->recursiveGetNextPreorder(current->getLeftNode(), process, iterateDirection);
+			this->process(current);
+			this->recursiveGetNextPreorder(((TNode<TData> *)current->getRightNode()), iterateDirection);
+			this->recursiveGetNextPreorder(((TNode<TData> *)current->getLeftNode()), iterateDirection);
 		}
-		
+
 	}
-	template<typename T>
-	inline void BinaryTreeIterator<T>::recursiveGetNextInorder(BinaryTreeNode<T>* current, void(*process)(T), ITERATEDIRECTION iterateDirection)
+	template<typename TData, template <typename> typename TNode>
+	inline void BinaryTreeIterator<TData, TNode>::recursiveGetNextInorder(TNode<TData>* current, ITERATEDIRECTION iterateDirection)
 	{
 		if (nullptr == current)
 		{
@@ -56,19 +60,19 @@ namespace psands_cisp430_a4
 
 		if (FORWARD == iterateDirection)
 		{
-			this->recursiveGetNextInorder(current->getLeftNode(), process, iterateDirection);
-			process(current->getData());
-			this->recursiveGetNextInorder(current->getRightNode(), process, iterateDirection);
+			this->recursiveGetNextInorder(((TNode<TData> *)current->getLeftNode()), iterateDirection);
+			this->process(current);
+			this->recursiveGetNextInorder(((TNode<TData> *)current->getRightNode()), iterateDirection);
 		}
 		else if (BACKWARD == iterateDirection)
 		{
-			this->recursiveGetNextInorder(current->getRightNode(), process, iterateDirection);
-			process(current->getData());
-			this->recursiveGetNextInorder(current->getLeftNode(), process, iterateDirection);
-		}		
+			this->recursiveGetNextInorder(((TNode<TData> *)current->getRightNode()), iterateDirection);
+			this->process(current);
+			this->recursiveGetNextInorder(((TNode<TData> *)current->getLeftNode()), iterateDirection);
+		}
 	}
-	template<typename T>
-	inline void BinaryTreeIterator<T>::recursiveGetNextPostorder(BinaryTreeNode<T>* current, void(*process)(T), ITERATEDIRECTION iterateDirection)
+	template<typename TData, template <typename> typename TNode>
+	inline void BinaryTreeIterator<TData, TNode>::recursiveGetNextPostorder(TNode<TData>* current, ITERATEDIRECTION iterateDirection)
 	{
 		if (nullptr == current)
 		{
@@ -77,41 +81,48 @@ namespace psands_cisp430_a4
 
 		if (FORWARD == iterateDirection)
 		{
-			this->recursiveGetNextPostorder(current->getLeftNode(), process, iterateDirection);
-			this->recursiveGetNextPostorder(current->getRightNode(), process, iterateDirection);
-			process(current->getData());
+			this->recursiveGetNextPostorder(((TNode<TData> *)current->getLeftNode()), iterateDirection);
+			this->recursiveGetNextPostorder(((TNode<TData> *)current->getRightNode()), iterateDirection);
+			this->process(current);
 		}
 		else if (BACKWARD == iterateDirection)
 		{
-			this->recursiveGetNextPostorder(current->getRightNode(), process, iterateDirection);
-			this->recursiveGetNextPostorder(current->getLeftNode(), process, iterateDirection);
-			process(current->getData());
+			this->recursiveGetNextPostorder(((TNode<TData> *)current->getRightNode()), iterateDirection);
+			this->recursiveGetNextPostorder(((TNode<TData> *)current->getLeftNode()), iterateDirection);
+			this->process(current);
 		}
 	}
-	template<typename T>
-	inline BinaryTreeIterator<T>::BinaryTreeIterator()
+	template<typename TData, template <typename> typename TNode>
+	inline void BinaryTreeIterator<TData, TNode>::process(TNode<TData>* node)
+	{
+		this->_process(node->getData());
+	}
+	template<typename TData, template <typename> typename TNode>
+	inline BinaryTreeIterator<TData, TNode>::BinaryTreeIterator()
 	{
 		this->_rootNode = nullptr;
 	}
-	template<typename T>
-	inline BinaryTreeIterator<T>::BinaryTreeIterator(BinaryTreeNode<T>* rootNode) : BinaryTreeIterator()
+	template<typename TData, template <typename> typename TNode>
+	inline BinaryTreeIterator<TData, TNode>::BinaryTreeIterator(TNode<TData>* rootNode) : BinaryTreeIterator()
 	{
 		this->_rootNode = rootNode;
 	}
-	template<typename T>
-	inline void BinaryTreeIterator<T>::iterate(void(*process)(T), ITERATETYPE iterateType, ITERATEDIRECTION iterateDirection)
+	template<typename TData, template <typename> typename TNode>
+	inline void BinaryTreeIterator<TData, TNode>::iterate(void(*userDefinedProcess)(TData), ITERATETYPE iterateType, ITERATEDIRECTION iterateDirection)
 	{
+		this->_process = userDefinedProcess;
+
 		if (NLR == iterateType)
 		{
-			this->recursiveGetNextPreorder(this->_rootNode, process, iterateDirection);
+			this->recursiveGetNextPreorder(this->_rootNode, iterateDirection);
 		}
 		else if (LNR == iterateType)
 		{
-			this->recursiveGetNextInorder(this->_rootNode, process, iterateDirection);
+			this->recursiveGetNextInorder(this->_rootNode, iterateDirection);
 		}
 		else if (LRN == iterateType)
 		{
-			this->recursiveGetNextPostorder(this->_rootNode, process, iterateDirection);
+			this->recursiveGetNextPostorder(this->_rootNode, iterateDirection);
 		}
 	}
 }

@@ -97,7 +97,7 @@ namespace A4TestNative
 			tree->insert(4); tree->insert(2); tree->insert(1); tree->insert(3);
 			tree->insert(6); tree->insert(5); tree->insert(7);
 
-			BinaryTreeIterator<int> itr = tree->getIterator();
+			BinaryTreeIterator<int, BinaryTreeNode> itr = tree->getIterator();
 
 			itr.iterate(iterateBuildString, LNR, FORWARD);
 			Logger::WriteMessage("Assert LNR FORWARD iteration result is: 1 2 3 4 5 6 7\n");

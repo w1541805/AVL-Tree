@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="A4BinaryTree.h" />
+    <ClInclude Include="A4BinaryTreeIterator.h" />
     <ClInclude Include="AvlBinaryTree.h" />
     <ClInclude Include="AvlBinaryTreeNode.h" />
     <ClInclude Include="BinarySearchTree.h" />

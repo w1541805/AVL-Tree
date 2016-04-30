@@ -37,8 +37,8 @@ namespace psands_cisp430_a4
 	template<class T>
 	inline int AvlBinaryTreeNode<T>::getBalance() const
 	{
-		int rightHeight = (nullptr != this->getRightNode()) ? ((AvlBinaryTreeNode *)this->getRightNode())->getHeight() : 0;
 		int leftHeight = (nullptr != this->getLeftNode()) ? ((AvlBinaryTreeNode *)this->getLeftNode())->getHeight() : 0;
+		int rightHeight = (nullptr != this->getRightNode()) ? ((AvlBinaryTreeNode *)this->getRightNode())->getHeight() : 0;
 
 		return rightHeight - leftHeight;
 	}
