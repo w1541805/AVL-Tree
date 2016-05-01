@@ -22,7 +22,7 @@ namespace psands_cisp430_a4
 	template<typename T>
 	inline void A4AvlTreeIterator<T>::process(AvlBinaryTreeNode<T>* node)
 	{
-		int displayDepth = 4 * getSpacesFromRoot(node, 0);
+		int displayDepth = 4 * this->getSpacesFromRoot(node, 0);
 		std::string spaces = "";
 		for (int i = 0; i < displayDepth; i++)
 		{
