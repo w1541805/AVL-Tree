@@ -1,35 +1,39 @@
 #ifndef PSANDS_CISP430_A4BINARYTREEITERATOR_H
 #define PSANDS_CISP430_A4BINARYTREEITERATOR_H
 
-#include "AvlBinaryTreeNode.h"
 #include "BinaryTreeIterator.h"
+#include "BinaryTreeNode.h"
 
-#include <iostream>
+#include <string>
 
 namespace psands_cisp430_a4
 {
-	template<typename T>
-	class A4BinaryTreeIterator : public BinaryTreeIterator<T, AvlBinaryTreeNode>
+	template<typename TData, template <typename> class TNode>
+	class A4BinaryTreeIterator : public BinaryTreeIterator<TData, TNode>
 	{
-	private:
-		int _rootHeight;
 	protected:
-		void process(AvlBinaryTreeNode<T> * node) override;
+		std::string _iterationResult;
+		bool _displayHierarchy;
+
+		int getSpacesFromRoot(TNode<TData> * node, int distanceFromRoot);
+		virtual void process(TNode<TData> * node) override;
 	public:
-		A4BinaryTreeIterator(AvlBinaryTreeNode<T> * rootNode);
+		A4BinaryTreeIterator(TNode<TData> * rootNode);
 		void a4iterate(ITERATETYPE iterateType, ITERATEDIRECTION iterateDirection);
+		std::string getIterationResult();
+		void configureA4(bool displayHierarchy);
 	};
-	template<typename T>
-	int getSpacesFromRoot(AvlBinaryTreeNode<T> * node, int distanceFromRoot)
+	template<typename TData, template <typename> class TNode>
+	int A4BinaryTreeIterator<TData, TNode>::getSpacesFromRoot(TNode<TData> * node, int distanceFromRoot)
 	{
 		if (nullptr == node->getParentNode())
 		{
 			return distanceFromRoot;
 		}
-		return getSpacesFromRoot(((AvlBinaryTreeNode<T> *)node->getParentNode()), distanceFromRoot + 1);
+		return getSpacesFromRoot(((TNode<TData> *)node->getParentNode()), distanceFromRoot + 1);
 	}
-	template<typename T>
-	inline void A4BinaryTreeIterator<T>::process(AvlBinaryTreeNode<T>* node)
+	template<typename TData, template <typename> class TNode>
+	inline void A4BinaryTreeIterator<TData, TNode>::process(TNode<TData>* node)
 	{
 		int displayDepth = 4 * getSpacesFromRoot(node, 0);
 		std::string spaces = "";
@@ -37,15 +41,17 @@ namespace psands_cisp430_a4
 		{
 			spaces += " ";
 		}
-		std::cout << spaces << node->getData() << " " << "[h: " << node->getHeight() << " b: " << node->getBalance() << "]\n";
+		this->_iterationResult +=
+			(true == this->_displayHierarchy ? spaces : "") +
+			node->getData() +
+			"\n";
 	}
-	template<typename T>
-	inline A4BinaryTreeIterator<T>::A4BinaryTreeIterator(AvlBinaryTreeNode<T>* rootNode) : BinaryTreeIterator<T, AvlBinaryTreeNode>::BinaryTreeIterator(rootNode)
+	template<typename TData, template <typename> class TNode>
+	inline A4BinaryTreeIterator<TData, TNode>::A4BinaryTreeIterator(TNode<TData>* rootNode) : BinaryTreeIterator<TData, TNode>::BinaryTreeIterator(rootNode)
 	{
-		this->_rootHeight = rootNode->getHeight();
 	}
-	template<typename T>
-	inline void A4BinaryTreeIterator<T>::a4iterate(ITERATETYPE iterateType, ITERATEDIRECTION iterateDirection)
+	template<typename TData, template <typename> class TNode>
+	inline void A4BinaryTreeIterator<TData, TNode>::a4iterate(ITERATETYPE iterateType, ITERATEDIRECTION iterateDirection)
 	{
 		if (NLR == iterateType)
 		{
@@ -59,6 +65,16 @@ namespace psands_cisp430_a4
 		{
 			this->recursiveGetNextPostorder(this->_rootNode, iterateDirection);
 		}
+	}
+	template<typename TData, template <typename> class TNode>
+	inline std::string A4BinaryTreeIterator<TData, TNode>::getIterationResult()
+	{
+		return this->_iterationResult;
+	}
+	template<typename TData, template <typename> class TNode>
+	inline void A4BinaryTreeIterator<TData, TNode>::configureA4(bool displayHierarchy)
+	{
+		this->_displayHierarchy = displayHierarchy;
 	}
 }
 

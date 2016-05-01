@@ -19,16 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="A4BinaryTree.h" />
+    <ClInclude Include="A4AvlTree.h" />
+    <ClInclude Include="A4AvlTreeIterator.h" />
+    <ClInclude Include="A4BinarySearchTree.h" />
     <ClInclude Include="A4BinaryTreeIterator.h" />
     <ClInclude Include="AvlBinaryTree.h" />
     <ClInclude Include="AvlBinaryTreeNode.h" />
     <ClInclude Include="BinarySearchTree.h" />
     <ClInclude Include="BinaryTreeIterator.h" />
     <ClInclude Include="BinaryTreeNode.h" />
+    <ClInclude Include="Report.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Report.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A6A5CA8E-034D-4DA7-A957-A24BAEA607F7}</ProjectGuid>

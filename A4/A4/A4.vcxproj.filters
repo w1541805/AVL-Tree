@@ -33,12 +33,24 @@
     <ClInclude Include="A4BinaryTreeIterator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="A4BinaryTree.h">
+    <ClInclude Include="Report.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="A4AvlTreeIterator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="A4BinarySearchTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="A4AvlTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Report.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
