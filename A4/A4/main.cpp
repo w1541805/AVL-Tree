@@ -1,3 +1,40 @@
+/*
+Peter Sands
+CISP 430
+Spring 2016
+
+Assignment 4 - Binary Tree
+
+My project is an implementation of a 
+Binary Search Tree, which is a non-balanced, but sorted tree and an
+AVL Binary Tree, which is balanced and sorted.
+
+I will generate outputs for both the Binary Search Tree and the AVL Tree according
+to the project specifications.
+
+
+main psuedocode
+Create binary search tree object
+	Load words from specification into the tree object
+	Generate in-order report in ascending order
+	Generate in-order report in descending order
+	Remove words from tree as indicated by specification
+	Generate in-order report in ascending order
+	Generate in-order report in descending order
+	Generate hierarchical view report
+
+Create avl binary tree object
+	Load words from specification into the tree object
+	Generate in-order report in ascending order
+	Generate in-order report in descending order
+	Remove words from tree as indicated by specification
+	Generate in-order report in ascending order
+	Generate in-order report in descending order
+	Generate hierarchical view report
+
+*/
+
+
 #include "BinarySearchTree.h"
 #include "BinaryTreeNode.h"
 #include "A4BinaryTreeIterator.h"
@@ -30,41 +67,41 @@ void saveReport(Report rpt, string outputFile);
 int main(void)
 {
 	StringTree * binaryTree = new StringTree();
-	insertBinaryTreeInput("C:\\Users\\peter\\Google Drive\\Work\\School\\Spring 2016\\CISP 430\\Programming Assign 04\\input\\insert.txt", binaryTree);
+	insertBinaryTreeInput("..\\input\\insert.txt", binaryTree);
 	A4BinaryTreeIterator<string, BinaryTreeNode> btItr = binaryTree->geta4Iterator();
-	generateBinarySearchTreeReportOutput("C:\\Users\\peter\\Google Drive\\Work\\School\\Spring 2016\\CISP 430\\Programming Assign 04\\reports\\01-bst-initial-forward.txt",
+	generateBinarySearchTreeReportOutput("..\\reports\\01-bst-initial-forward.txt",
 		"BINARY SEARCH TREE - INITIAL INPUT - FORWARD", btItr, false, true, false);
-	generateBinarySearchTreeReportOutput("C:\\Users\\peter\\Google Drive\\Work\\School\\Spring 2016\\CISP 430\\Programming Assign 04\\reports\\02-bst-initial-backward.txt",
+	generateBinarySearchTreeReportOutput("..\\reports\\02-bst-initial-backward.txt",
 		"BINARY SEARCH TREE - INITIAL INPUT - BACKWARD", btItr, false, false, false);
 
 	removeBinaryTreeEntries(binaryTree);
 
-	generateBinarySearchTreeReportOutput("C:\\Users\\peter\\Google Drive\\Work\\School\\Spring 2016\\CISP 430\\Programming Assign 04\\reports\\03-bst-deletion-forward.txt",
+	generateBinarySearchTreeReportOutput("..\\reports\\03-bst-deletion-forward.txt",
 		"BINARY SEARCH TREE - AFTER REMOVAL - FORWARD", btItr, false, true, false);
-	generateBinarySearchTreeReportOutput("C:\\Users\\peter\\Google Drive\\Work\\School\\Spring 2016\\CISP 430\\Programming Assign 04\\reports\\04-bst-deletion-backward.txt",
+	generateBinarySearchTreeReportOutput("..\\reports\\04-bst-deletion-backward.txt",
 		"BINARY SEARCH TREE - AFTER REMOVAL - BACKWARD", btItr, false, false, false);
 
-	generateBinarySearchTreeReportOutput("C:\\Users\\peter\\Google Drive\\Work\\School\\Spring 2016\\CISP 430\\Programming Assign 04\\reports\\05-bst-hierarchy-diagram.txt",
+	generateBinarySearchTreeReportOutput("..\\reports\\05-bst-hierarchy-diagram.txt",
 		"BINARY SEARCH TREE - HIERARCHICAL VIEW", btItr, true, false, true);
 
 	delete binaryTree;
 
 	StringAvlTree * avlTree = new StringAvlTree();
-	insertBinaryTreeInput("C:\\Users\\peter\\Google Drive\\Work\\School\\Spring 2016\\CISP 430\\Programming Assign 04\\input\\insert.txt", (StringTree *)avlTree);
+	insertBinaryTreeInput("..\\input\\insert.txt", (StringTree *)avlTree);
 	A4AvlTreeIterator<string> avlItr = avlTree->geta4Iterator();
-	generateBinarySearchTreeReportOutput("C:\\Users\\peter\\Google Drive\\Work\\School\\Spring 2016\\CISP 430\\Programming Assign 04\\reports\\06-avl-initial-forward.txt",
+	generateBinarySearchTreeReportOutput("..\\reports\\06-avl-initial-forward.txt",
 		"AVL BINARY TREE - INITIAL INPUT - FORWARD", avlItr, true, true, false, true);
-	generateBinarySearchTreeReportOutput("C:\\Users\\peter\\Google Drive\\Work\\School\\Spring 2016\\CISP 430\\Programming Assign 04\\reports\\07-avl-initial-backward.txt",
+	generateBinarySearchTreeReportOutput("..\\reports\\07-avl-initial-backward.txt",
 		"AVL BINARY TREE - INITIAL INPUT - BACKWARD", avlItr, true, false, false, true);
 
 	removeBinaryTreeEntries((StringTree *)avlTree);
 
-	generateBinarySearchTreeReportOutput("C:\\Users\\peter\\Google Drive\\Work\\School\\Spring 2016\\CISP 430\\Programming Assign 04\\reports\\08-avl-deletion-forward.txt",
+	generateBinarySearchTreeReportOutput("..\\reports\\08-avl-deletion-forward.txt",
 		"AVL BINARY TREE - AFTER REMOVAL - FORWARD", avlItr, true, true, false, true);
-	generateBinarySearchTreeReportOutput("C:\\Users\\peter\\Google Drive\\Work\\School\\Spring 2016\\CISP 430\\Programming Assign 04\\reports\\09-avl-deletion-backward.txt",
+	generateBinarySearchTreeReportOutput("..\\reports\\09-avl-deletion-backward.txt",
 		"AVL BINARY TREE - AFTER REMOVAL - BACKWARD", avlItr, true, false, false, true);
 
-	generateBinarySearchTreeReportOutput("C:\\Users\\peter\\Google Drive\\Work\\School\\Spring 2016\\CISP 430\\Programming Assign 04\\reports\\10-avl-hierarchy-diagram.txt",
+	generateBinarySearchTreeReportOutput("..\\reports\\10-avl-hierarchy-diagram.txt",
 		"AVL BINARY TREE - HIERARCHICAL VIEW", avlItr, true, false, true, false);
 
 	
